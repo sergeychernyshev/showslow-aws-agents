@@ -2,15 +2,15 @@
 
 SHOWSLOWBASE='http://www.showslow.com' # e.g. 'http://www.showslow.com'
 
-URLS=`curl $SHOWSLOWBASE/monitor.php`
+URLS=`curl -s $SHOWSLOWBASE/monitor.php`
 
 # Download and install PhantomJS: http://phantomjs.org/download.html
-PHANTOMJS='~/phantomjs/bin/phantomjs'
+PHANTOMJS='/home/ec2-user/phantomjs/bin/phantomjs'
 
 # Download the latest build of phantomjs version of yslow: https://github.com/marcelduran/yslow/downloads
-YSLOWJS='./yslow.js'
+YSLOWJS='/home/ec2-user/user-repo/yslow.js'
 
 for URL in $URLS
 do
-	echo "$URL" | $PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ >/dev/null
+	$PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >/home/ec2-user/showslow.log
 done
