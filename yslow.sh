@@ -11,7 +11,11 @@ PHANTOMJS='/home/ec2-user/phantomjs/bin/phantomjs'
 YSLOWJS='/home/ec2-user/user-repo/yslow.js'
 YSLOWLOG='/home/ec2-user/user-logs/yslow.log'
 
+# Resetting the log
+>$YSLOWLOG
+
 for URL in $URLS
 do
-	$PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >$YSLOWLOG
+	echo "Testing $URL" >>$YSLOWLOG
+	$PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
 done
