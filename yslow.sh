@@ -2,7 +2,13 @@
 
 SHOWSLOWBASE='http://www.showslow.com' # e.g. 'http://www.showslow.com'
 
-URLS=`curl -s $SHOWSLOWBASE/monitor.php`
+if [ "x$1" == "xnew" ]; then
+	echo "Testing only recently added URLs"
+	URLS=`curl -s $SHOWSLOWBASE/monitor.php?new`
+else
+	echo "Testing all URLs"
+	URLS=`curl -s $SHOWSLOWBASE/monitor.php`
+fi
 
 # Download and install PhantomJS: http://phantomjs.org/download.html
 PHANTOMJS='/home/ec2-user/phantomjs/bin/phantomjs'
