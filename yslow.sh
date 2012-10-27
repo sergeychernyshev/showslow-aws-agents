@@ -18,4 +18,5 @@ for URL in $URLS
 do
 	echo "Testing $URL" >>$YSLOWLOG
 	$PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
+	rm -rf ~/.qws
 done
