@@ -38,7 +38,7 @@ do
 		echo `date` "New URL $URL was already tested before, skipping" >>$YSLOWLOG
 	else
 		echo `date` "Testing $URL" >>$YSLOWLOG
-		$PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
+		timeout 90 $PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
 		rm -rf ~/.qws
 		rm -rf ~/.fontconfig
 	fi
