@@ -1,2 +1,2 @@
-0	2	*	*	*	/home/ec2-user/user-repo/showslow.sh
+0	5	*	*	*	/home/ec2-user/user-repo/showslow.sh
 */3	*	*	*	*	/home/ec2-user/user-repo/showslow.sh new
