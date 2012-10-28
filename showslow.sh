@@ -19,37 +19,68 @@ PAGESPEEDLOG='/home/ec2-user/user-logs/pagespeed.log'
 
 if [ "x$1" == "xnew" ]; then
 	echo `date` "Testing only recently added URLs" >>$SHOWSLOWLOG
-	URLS=`curl -s $SHOWSLOWBASE/monitor.php?new`
+	LISTSERVICE="$SHOWSLOWBASE/monitor.php?new"
 else
 	echo `date` "Testing all URLs" >>$SHOWSLOWLOG
-	URLS=`curl -s $SHOWSLOWBASE/monitor.php`
+	LISTSERVICE="$SHOWSLOWBASE/monitor.php"
 fi
 
 mkdir -p /home/ec2-user/user-logs/process.cache/
 
-for URL in $URLS
-do
-	SKIP=0
-	if [ "x$1" == "xnew" ]; then
-		HASH=`echo "$URL" | md5sum | sed -e 's/\s.*//'`
-		if [ -f /home/ec2-user/user-logs/process.cache/$HASH ]; then
-			SKIP=1
+PARNUM=4
+FOLDER=/tmp/urls.$$
+mkdir -p $FOLDER
+
+echo Retrieving list of URLs from $LISTSERVICE
+curl -s $LISTSERVICE > $FOLDER/urls.txt
+TOTALLINES=`wc -l < $FOLDER/urls.txt`
+LINESPERCHUNK=`expr $TOTALLINES / $PARNUM + 1`
+(cd $FOLDER; split -l $LINESPERCHUNK $FOLDER/urls.txt urls_)
+rm $FOLDER/urls.txt
+
+function proc {
+	URLS=$1
+
+	for URL in $URLS
+	do
+		SKIP=0
+		if [ "x$1" == "xnew" ]; then
+			HASH=`echo "$URL" | md5sum | sed -e 's/\s.*//'`
+			if [ -f /home/ec2-user/user-logs/process.cache/$HASH ]; then
+				SKIP=1
+			fi
+
+			>/home/ec2-user/user-logs/process.cache/$HASH
 		fi
 
-		>/home/ec2-user/user-logs/process.cache/$HASH
-	fi
+		if [ "x$SKIP" == "x1" ]; then
+			echo `date` "New URL $URL was already tested before, skipping" >>$SHOWSLOWLOG
+		else
+			# YSlow
+			echo `date` "Testing $URL" >>$YSLOWLOG
+			timeout 90 $PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
+			rm -rf ~/.qws
+			rm -rf ~/.fontconfig
 
-	if [ "x$SKIP" == "x1" ]; then
-		echo `date` "New URL $URL was already tested before, skipping" >>$SHOWSLOWLOG
-	else
-		# YSlow
-		echo `date` "Testing $URL" >>$YSLOWLOG
-		timeout 90 $PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
-		rm -rf ~/.qws
-		rm -rf ~/.fontconfig
+			# Google Page Speed
+			echo `date` "Testing $URL using Page Speed API" >>$PAGESPEEDLOG
+			echo "$URL" | curl "$SHOWSLOWBASE/beacon/pagespeed/?api" -G --data-urlencode u@-
+		fi
+	done
+}
 
-		# Google Page Speed
-		echo `date` "Testing $URL using Page Speed API" >>$PAGESPEEDLOG
-		echo "$URL" | curl "$SHOWSLOWBASE/beacon/pagespeed/?api" -G --data-urlencode u@-
-	fi
+echo "Parallel processes: $PARNUM"
+echo "Total number of URLs: $TOTALLINES"
+echo "URLs per process: $LINESPERCHUNK"
+
+LISTS=`ls -1 $FOLDER`
+
+for LIST in $LISTS
+do
+	proc $FOLDER/$LIST &
 done
+
+wait
+
+rm -rf $FOLDER
+
