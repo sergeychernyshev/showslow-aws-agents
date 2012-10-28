@@ -20,9 +20,26 @@ YSLOWLOG='/home/ec2-user/user-logs/yslow.log'
 # Resetting the log
 >$YSLOWLOG
 
+mkdir -p /home/ec2-user/user-logs/process.cache/
+
 for URL in $URLS
 do
-	echo `date` "Testing $URL" >>$YSLOWLOG
-	$PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
-	rm -rf ~/.qws
+	SKIP=0
+	if [ "x$1" == "xnew" ]; then
+		HASH=`echo "$URL" | md5sum | sed -e 's/\s.*//'`
+		if [ -f /home/ec2-user/user-logs/process.cache/$HASH ]; then
+			SKIP=1
+		fi
+
+		>/home/ec2-user/user-logs/process.cache/$HASH
+	fi
+
+	if [ "x$SKIP" == "x1" ]; then
+		echo `date` "New URL $URL was already tested before, skipping" >>$YSLOWLOG
+	else
+		echo `date` "Testing $URL" >>$YSLOWLOG
+		$PHANTOMJS $YSLOWJS -i grade -b $SHOWSLOWBASE/beacon/yslow/ $URL >>$YSLOWLOG
+		rm -rf ~/.qws
+		rm -rf ~/.fontconfig
+	fi
 done
