@@ -1,7 +1,7 @@
 ShowSlow AMI Agents
 ===================
 
-Show Slow agents used in Amazon AMI
+Show Slow agents powered by Phantom Of The Cloud Amazon AMI
 
 Beacons ran include:
-- YSlow (using PhantomJS)
+- YSlow (using PhantomJS version)
