@@ -2,11 +2,14 @@
 
 SHOWSLOWBASE='http://www.showslow.com' # e.g. 'http://www.showslow.com'
 
+# Resetting the log
+>$YSLOWLOG
+
 if [ "x$1" == "xnew" ]; then
-	echo "Testing only recently added URLs"
+	echo "Testing only recently added URLs" >>$YSLOWLOG
 	URLS=`curl -s $SHOWSLOWBASE/monitor.php?new`
 else
-	echo "Testing all URLs"
+	echo "Testing all URLs" >>$YSLOWLOG
 	URLS=`curl -s $SHOWSLOWBASE/monitor.php`
 fi
 
@@ -16,9 +19,6 @@ PHANTOMJS='/home/ec2-user/phantomjs/bin/phantomjs'
 # Download the latest build of phantomjs version of yslow: https://github.com/marcelduran/yslow/downloads
 YSLOWJS='/home/ec2-user/user-repo/yslow.js'
 YSLOWLOG='/home/ec2-user/user-logs/yslow.log'
-
-# Resetting the log
->$YSLOWLOG
 
 mkdir -p /home/ec2-user/user-logs/process.cache/
 
