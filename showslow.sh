@@ -9,6 +9,7 @@ PHANTOMJS='/home/ec2-user/phantomjs/bin/phantomjs'
 YSLOWJS='/home/ec2-user/user-repo/yslow.js'
 
 # Logs
+SHOWSLOWLOG='/home/ec2-user/user-logs/showslow.log'
 YSLOWLOG='/home/ec2-user/user-logs/yslow.log'
 PAGESPEEDLOG='/home/ec2-user/user-logs/pagespeed.log'
 
@@ -17,10 +18,10 @@ PAGESPEEDLOG='/home/ec2-user/user-logs/pagespeed.log'
 >$PAGESPEEDLOG
 
 if [ "x$1" == "xnew" ]; then
-	echo "Testing only recently added URLs" >>$YSLOWLOG
+	echo `date` "Testing only recently added URLs" >>$SHOWSLOWLOG
 	URLS=`curl -s $SHOWSLOWBASE/monitor.php?new`
 else
-	echo "Testing all URLs" >>$YSLOWLOG
+	echo `date` "Testing all URLs" >>$SHOWSLOWLOG
 	URLS=`curl -s $SHOWSLOWBASE/monitor.php`
 fi
 
@@ -39,7 +40,7 @@ do
 	fi
 
 	if [ "x$SKIP" == "x1" ]; then
-		echo `date` "New URL $URL was already tested before, skipping" >>$YSLOWLOG
+		echo `date` "New URL $URL was already tested before, skipping" >>$SHOWSLOWLOG
 	else
 		# YSlow
 		echo `date` "Testing $URL" >>$YSLOWLOG
