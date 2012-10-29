@@ -76,8 +76,8 @@ function proc {
 			rm -rf ~/.fontconfig
 
 			# Google Page Speed
-#			echo `date` "Testing $URL using Page Speed API" >>$PAGESPEEDLOG
-#			echo "$URL" | curl -s "$SHOWSLOWBASE/beacon/pagespeed/?api" -G --data-urlencode u@-
+			echo `date` "Testing $URL using Page Speed API" >>$PAGESPEEDLOG
+			echo "$URL" | curl -s "$SHOWSLOWBASE/beacon/pagespeed/?api" -G --data-urlencode u@-
 		fi
 	done
 }
