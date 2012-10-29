@@ -57,7 +57,7 @@ function proc {
 	for URL in $URLS
 	do
 		SKIP=0
-		if [ "x$1" == "xnew" ]; then
+		if [ "x$2" == "xnew" ]; then
 			HASH=`echo "$URL" | md5sum | sed -e 's/\s.*//'`
 			if [ -f /home/ec2-user/user-logs/process.cache/$HASH ]; then
 				SKIP=1
@@ -86,7 +86,7 @@ LISTS=`ls -1 $FOLDER`
 
 for LIST in $LISTS
 do
-	proc $FOLDER/$LIST &
+	proc $FOLDER/$LIST $1 &
 done
 
 wait
