@@ -39,9 +39,10 @@ curl -s $LISTSERVICE > $FOLDER/urls.txt
 TOTALLINES=`wc -l < $FOLDER/urls.txt`
 echo "Total number of URLs: $TOTALLINES" >>$SHOWSLOWLOG
 if [ "x$TOTALLINES" == "x0" ]; then
-#	echo "Nothing to test, exiting" >>$SHOWSLOWLOG
-#	exit
-	TOTALLINES=1
+	TOTALBYTES=`wc -c < $FOLDER/urls.txt`
+	if [ "x$TOTALBYTES" != "x0" ]; then
+		TOTALLINES=1
+	fi
 fi
 
 LINESPERCHUNK=`expr $TOTALLINES / $PARNUM + 1`
