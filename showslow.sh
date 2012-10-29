@@ -27,7 +27,8 @@ fi
 
 mkdir -p /home/ec2-user/user-logs/process.cache/
 
-PARNUM=3
+PROCESSORS=`nproc`
+PARNUM=`expr $PROCESSORS * 3`
 FOLDER=/tmp/urls.$$
 mkdir -p $FOLDER
 
