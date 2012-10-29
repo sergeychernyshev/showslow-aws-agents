@@ -29,17 +29,23 @@ mkdir -p /home/ec2-user/user-logs/process.cache/
 
 PROCESSORS=`nproc`
 PARNUM=`expr $PROCESSORS "*" 3`
-FOLDER=/tmp/urls.$$
+echo "Parallel processes: $PARNUM" >>$SHOWSLOWLOG
+
+FOLDER=/home/ec2-user/user-logs/urls.$$
 mkdir -p $FOLDER
 
 echo Retrieving list of URLs from $LISTSERVICE >>$SHOWSLOWLOG
 curl -s $LISTSERVICE > $FOLDER/urls.txt
 TOTALLINES=`wc -l < $FOLDER/urls.txt`
+echo "Total number of URLs: $TOTALLINES" >>$SHOWSLOWLOG
 if [ "x$TOTALLINES" == "x0" ]; then
+	echo "Nothing to test, exiting" >>$SHOWSLOWLOG
 	exit
 fi
 
 LINESPERCHUNK=`expr $TOTALLINES / $PARNUM + 1`
+echo "URLs per process: $LINESPERCHUNK" >>$SHOWSLOWLOG
+
 (cd $FOLDER; split -l $LINESPERCHUNK $FOLDER/urls.txt urls_)
 rm $FOLDER/urls.txt
 
@@ -73,10 +79,6 @@ function proc {
 		fi
 	done
 }
-
-echo "Parallel processes: $PARNUM" >>$SHOWSLOWLOG
-echo "Total number of URLs: $TOTALLINES" >>$SHOWSLOWLOG
-echo "URLs per process: $LINESPERCHUNK" >>$SHOWSLOWLOG
 
 LISTS=`ls -1 $FOLDER`
 
