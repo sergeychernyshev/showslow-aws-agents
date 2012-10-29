@@ -35,6 +35,10 @@ mkdir -p $FOLDER
 echo Retrieving list of URLs from $LISTSERVICE >>$SHOWSLOWLOG
 curl -s $LISTSERVICE > $FOLDER/urls.txt
 TOTALLINES=`wc -l < $FOLDER/urls.txt`
+if [ "x$TOTALLINES" == "x0" ]; then
+	exit
+fi
+
 LINESPERCHUNK=`expr $TOTALLINES / $PARNUM + 1`
 (cd $FOLDER; split -l $LINESPERCHUNK $FOLDER/urls.txt urls_)
 rm $FOLDER/urls.txt
