@@ -102,8 +102,7 @@ while (1) {
 	}
 
 	if (count($urls) == 0 || is_null($messageHandle)) {
-
-		echo "[" . date('r') . "] Sleeping for " . WAIT_BETWEEN_TESTS . " seconds before exiting";
+		echo "\n[" . date('r') . "] Sleeping for " . WAIT_BETWEEN_TESTS . " seconds before exiting";
 		sleep(WAIT_BETWEEN_TESTS);
 		exit(4); // nothing to test
 	}
@@ -175,6 +174,6 @@ function testURLs($urls, $messageHandle = null) {
 	}
 }
 
-echo "[" . date('r') . "] Sleeping for " . WAIT_BETWEEN_TESTS . " seconds before exiting";
+echo "\n[" . date('r') . "] Sleeping for " . WAIT_BETWEEN_TESTS . " seconds before exiting";
 sleep(WAIT_BETWEEN_TESTS);
 exit(1); // completed
