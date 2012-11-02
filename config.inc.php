@@ -27,3 +27,5 @@ define('YSLOWJS', '/home/ec2-user/user-repo/yslow.js');
 define('SHOWSLOWLOG', TEMP_FOLDER . '/showslow.log');
 define('YSLOWLOG', TEMP_FOLDER . '/yslow.log');
 define('PAGESPEEDLOG', TEMP_FOLDER . '/pagespeed.log');
+
+define('WAIT_BETWEEN_TESTS', 300);

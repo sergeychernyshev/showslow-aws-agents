@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/config.inc.php';
 
 if (DEBUG)
-	echo("[" . date('r') . "] Encoder started\n");
+	echo("[" . date('r') . "] ShowSlow tester started\n");
 
 // SQS setup
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/sqs/src');
@@ -101,6 +101,8 @@ while (1) {
 	}
 
 	if (count($urls) == 0 || is_null($messageHandle)) {
+
+		sleep(WAIT_BETWEEN_TESTS);
 		exit(4); // nothing to test
 	}
 
@@ -171,4 +173,5 @@ function testURLs($urls, $messageHandle = null) {
 	}
 }
 
+sleep(WAIT_BETWEEN_TESTS);
 exit(1); // completed
