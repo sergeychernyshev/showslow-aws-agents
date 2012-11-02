@@ -11,7 +11,7 @@ define('SQS_AWS_SECRET_ACCESS_KEY', 'p/Jc14VcF+CL4trMN/f014bdtvyXxmCVduU79BZd');
 $queueName = 'ShowSlowTests';
 
 define('SHOWSLOW_BASE', 'http://www.showslow.com');
-define('TEMP_FOLDER', '/home/user/user-logs');
+define('TEMP_FOLDER', '/home/ec2-user/user-logs');
 define('QUEUE_URL_CACHE', TEMP_FOLDER . '/.queueURLCache');
 
 // time during which we expect the result to be produced for each chunk
