@@ -5,7 +5,7 @@ define('DEBUG', true);
 
 $system_ini_file = "/home/ec2-user/system.ini";
 if (file_exists('system.ini')) {
-	$system_ini_file('system.ini');
+	$system_ini_file = 'system.ini';
 }
 
 $system_ini = parse_ini_file($system_ini_file, true);
