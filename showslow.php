@@ -2,9 +2,6 @@
 
 require_once dirname(__FILE__) . '/config.inc.php';
 
-if (DEBUG)
-	echo("[" . date('r') . "] ShowSlow tester started\n");
-
 // SQS setup
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/sqs/src');
 
@@ -29,6 +26,10 @@ if ($argc == 2) {
 
 if ($new) {
 	$queueName .= '-new';
+}
+
+if (DEBUG) {
+	echo("[" . date('r') . "] ShowSlow tester started using $queueName queue\n");
 }
 
 // Instantiate the class
