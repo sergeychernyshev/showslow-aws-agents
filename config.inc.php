@@ -12,7 +12,7 @@ $queueName = 'ShowSlowTests';
 
 define('SHOWSLOW_BASE', 'http://www.showslow.com');
 define('TEMP_FOLDER', '/home/user/user-logs');
-define('QUEUE_URL_CACHE', TEMP_FOLDER . '.queueURLCache');
+define('QUEUE_URL_CACHE', TEMP_FOLDER . '/.queueURLCache');
 
 // time during which we expect the result to be produced for each chunk
 define('DEFAULT_VISIBILITY_TIMEOUT', 9000);
