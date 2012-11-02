@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/config.inc.php';
 
 // SQS setup
@@ -28,7 +29,11 @@ if ($new) {
 }
 
 // Getting execution parameters from the SQS message
-$service = new Amazon_SQS_Client(SQS_AWS_ACCESS_KEY_ID, SQS_AWS_SECRET_ACCESS_KEY);
+$service = new Amazon_SQS_Client(
+				SQS_AWS_ACCESS_KEY_ID,
+				SQS_AWS_SECRET_ACCESS_KEY,
+				array('ServiceURL' => 'http://queue.amazonaws.com')
+);
 
 $queueURL = null;
 
