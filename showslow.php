@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/config.inc.php';
 
 if (DEBUG)
@@ -102,7 +103,7 @@ while (1) {
 
 	if (count($urls) == 0 || is_null($messageHandle)) {
 
-		echo "Sleeping for ".WAIT_BETWEEN_TESTS." seconds before exiting";
+		echo "[" . date('r') . "] Sleeping for " . WAIT_BETWEEN_TESTS . " seconds before exiting";
 		sleep(WAIT_BETWEEN_TESTS);
 		exit(4); // nothing to test
 	}
@@ -174,6 +175,6 @@ function testURLs($urls, $messageHandle = null) {
 	}
 }
 
-echo "Sleeping for ".WAIT_BETWEEN_TESTS." seconds before exiting";
+echo "[" . date('r') . "] Sleeping for " . WAIT_BETWEEN_TESTS . " seconds before exiting";
 sleep(WAIT_BETWEEN_TESTS);
 exit(1); // completed
