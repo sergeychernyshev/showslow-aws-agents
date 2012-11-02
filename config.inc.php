@@ -3,9 +3,10 @@
 define('DEBUG', true);
 #define('DEBUG', false);
 
-define('SQS_AWS_ACCESS_KEY_ID', 'AKIAIUZT75QKUMWH5YGQ');
-define('SQS_AWS_SECRET_ACCESS_KEY', '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');
+$system_ini = parse_ini_file("s/home/ec2-user/system.ini", true);
 
+define('SQS_AWS_ACCESS_KEY_ID', $system_ini['[aws]']['aws-key']);
+define('SQS_AWS_SECRET_ACCESS_KEY', $system_ini['[aws]']['aws-secret']);
 
 /////////////////// SET PARAMETERS HERE /////////////////////
 $queueName = 'ShowSlowTests';
