@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/s3/S3.php';
-
 require_once dirname(__FILE__) . '/config.inc.php';
 
 // SQS setup
