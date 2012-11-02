@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 require_once dirname(__FILE__) . '/s3/S3.php';
 
@@ -39,7 +38,7 @@ $queueURL = null;
 try {
 	$response = $service->createQueue(array(
 		'QueueName' => $queueName,
-		'DefaultVisibilityTimeout' => $DefaultVisibilityTimeout
+		'DefaultVisibilityTimeout' => DEFAULT_VISIBILITY_TIMEOUT
 			));
 
 	if ($response->isSetCreateQueueResult()) {
@@ -61,7 +60,7 @@ if (is_null($queueURL)) {
 	die("Can't get queue URL for queue: $queueName\n");
 }
 
-$urls_source = $showslow_base . '/monitor.php';
+$urls_source = SHOWSLOW_BASE . '/monitor.php';
 if ($new) {
 	$urls_source .= '?new';
 }
@@ -75,7 +74,7 @@ $urls = curl_exec($ch);
 $urls_array = explode("\n", $urls);
 
 while (count($urls_array) > 0) {
-	$chunk = array_splice($urls_array, 0, $urls_in_chunk);
+	$chunk = array_splice($urls_array, 0, URLS_IN_CHUNK);
 
 	try {
 		$response = $service->sendMessage(array(
