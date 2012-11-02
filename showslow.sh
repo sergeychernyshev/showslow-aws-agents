@@ -35,7 +35,7 @@ FOLDER=/home/ec2-user/user-logs/urls.$$
 mkdir -p $FOLDER
 
 echo Retrieving list of URLs from $LISTSERVICE >>$SHOWSLOWLOG
-curl -s $LISTSERVICE > $FOLDER/urls.txt
+curl --compressed -s $LISTSERVICE > $FOLDER/urls.txt
 TOTALLINES=`wc -l < $FOLDER/urls.txt`
 echo "Total number of URLs: $TOTALLINES" >>$SHOWSLOWLOG
 if [ "x$TOTALLINES" == "x0" ]; then
