@@ -13,9 +13,6 @@ $system_ini = parse_ini_file($system_ini_file, true);
 define('SQS_AWS_ACCESS_KEY_ID', $system_ini['aws']['aws-key']);
 define('SQS_AWS_SECRET_ACCESS_KEY', $system_ini['aws']['aws-secret']);
 
-echo "\nAWS Key: " . SQS_AWS_ACCESS_KEY_ID . "\n";
-echo "\nAWS Secret: " . SQS_AWS_SECRET_ACCESS_KEY . "\n";
-
 /////////////////// SET PARAMETERS HERE /////////////////////
 $queueName = 'ShowSlowTests';
 
