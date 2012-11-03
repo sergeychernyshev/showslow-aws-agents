@@ -2,9 +2,6 @@
 
 require_once dirname(__FILE__) . '/config.inc.php';
 
-if (DEBUG)
-	echo("[" . date('r') . "] ShowSlow tester started\n");
-
 // SQS setup
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/sqs/src');
 
@@ -27,16 +24,24 @@ if ($argc == 2) {
 	die("Usage: showslow.php [new]\n");
 }
 
+
+$queue_cache_file_name = QUEUE_URL_CACHE;
 if ($new) {
 	$queueName .= '-new';
+	$queue_cache_file_name .= '-new';
+}
+
+if (DEBUG) {
+	echo("[" . date('r') . "] ShowSlow tester started using $queueName queue\n");
 }
 
 // Instantiate the class
 $SQS = new Amazon_SQS_Client(SQS_AWS_ACCESS_KEY_ID, SQS_AWS_SECRET_ACCESS_KEY);
 $queueURL = null;
 
-if (file_exists(QUEUE_URL_CACHE)) {
-	$queueURL = file_get_contents(QUEUE_URL_CACHE);
+
+if (file_exists($queue_cache_file_name)) {
+	$queueURL = file_get_contents($queue_cache_file_name);
 } else {
 	// get queue
 	try {
@@ -49,7 +54,7 @@ if (file_exists(QUEUE_URL_CACHE)) {
 			$createQueueResult = $response->getCreateQueueResult();
 			if ($createQueueResult->isSetQueueUrl()) {
 				$queueURL = $createQueueResult->getQueueUrl();
-				file_put_contents(QUEUE_URL_CACHE, $queueURL);
+				file_put_contents($queue_cache_file_name, $queueURL);
 			}
 		}
 	} catch (Amazon_SQS_Exception $ex) {
