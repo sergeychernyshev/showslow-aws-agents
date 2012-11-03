@@ -74,7 +74,15 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_ENCODING, "gzip");
 $urls = curl_exec($ch);
 
-$urls_array = explode("\n", $urls);
+$urls_array = explode("\n", trim($urls));
+
+$urls_array = array_filter($urls_array, function($i) {
+	return trim($i);
+});
+
+$urls_array = array_filter($urls_array, function($i) {
+	return $i != '';
+});
 
 while (count($urls_array) > 0) {
 	$chunk = array_splice($urls_array, 0, URLS_IN_CHUNK);
