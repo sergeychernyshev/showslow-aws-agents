@@ -22,7 +22,7 @@ define('QUEUE_URL_CACHE', TEMP_FOLDER . '/queueURLCache');
 
 // time during which we expect the result to be produced for each chunk
 define('DEFAULT_VISIBILITY_TIMEOUT', 9000);
-define('URLS_IN_CHUNK', 100);
+define('URLS_IN_CHUNK', 20);
 
 # Download and install PhantomJS: http://phantomjs.org/download.html
 define('PHANTOMJS', '/home/ec2-user/phantomjs/bin/phantomjs');
