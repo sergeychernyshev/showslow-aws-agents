@@ -21,7 +21,7 @@ define('TEMP_FOLDER', '/home/ec2-user/user-logs');
 define('QUEUE_URL_CACHE', TEMP_FOLDER . '/queueURLCache');
 
 // time during which we expect the result to be produced for each chunk
-define('DEFAULT_VISIBILITY_TIMEOUT', 9000);
+define('DEFAULT_VISIBILITY_TIMEOUT', 1800);
 define('URLS_IN_CHUNK', 20);
 
 # Download and install PhantomJS: http://phantomjs.org/download.html
