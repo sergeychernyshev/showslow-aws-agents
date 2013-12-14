@@ -154,12 +154,14 @@ function testURLs($urls, $messageHandle = null) {
 		if (DEBUG) {
 			echo("\n[" . date('r') . "] Testing $url using Page Speed API\n");
 		}
+/*
 		$pagespeed_api_url = SHOWSLOW_BASE . "/beacon/pagespeed/?api&u=" . urldecode($url);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $pagespeed_api_url);
 		curl_exec($ch);
-	}
+*/
+}
 
 	if (!is_null($messageHandle)) {
 		// OK, now let's delete it from queue to make sure we don't encode multiple times
